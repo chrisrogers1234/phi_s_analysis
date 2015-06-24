@@ -218,58 +218,51 @@ larger than the calculated error in the peak finder, indicating that there may
 be some debunching or other behaviour occurring.
 
 Bunch monitor signals for a selection of the measured data sets are shown in 
-Fig. \ref{fig:bm_signal_periodic_captured} and Fig. 
-\ref{fig:bm_signal_periodic_not_captured}. Further interpretation of the
-bunch monitor signals is given by comparison to Monte Carlo in section 
-\ref{sec:mc}
+Fig. \ref{fig:bm_signal_periodic}. Further interpretation of the bunch monitor 
+signals is given by comparison to Monte Carlo in section \ref{sec:mc}.
 
 \begin{figure}
-		\includegraphics[width=0.5\textwidth]{images/V=7_18_fitted_bpm_to_rf_deltas}
-		\includegraphics[width=0.5\textwidth]{images/V=4_21_fitted_bpm_to_rf_deltas}
-		\includegraphics[width=0.5\textwidth]{images/V=1_67_fitted_bpm_to_rf_deltas}
-	\caption{BPM signal for RF voltages where the beam is considered to be
-           captured. The colours show AC signal voltage. $\delta t$ is the time
-           relative to the most recent RF peak. The points show the position of
-           the measured peaks in the beam current. Red points are those which
-           are included in the analysis. Early in the cycle the beam is assumed
-           to be not captured. The red line corresponds to a sine curve fit to
-           the red points. The units for the abscissa are $1e3 ns$.}
-	\label{fig:bm_signal_periodic_captured}
-\end{figure}
-
-\begin{figure}
-		\includegraphics[width=0.5\textwidth]{images/V=1_05_fitted_bpm_to_rf_deltas}
-		\includegraphics[width=0.5\textwidth]{images/V=0_81_fitted_bpm_to_rf_deltas}
+		\includegraphics[width=0.5\textwidth]{images/V=0_32_fitted_bpm_to_rf_deltas}
+		\includegraphics[width=0.5\textwidth]{images/V=0_46_fitted_bpm_to_rf_deltas}
 		\includegraphics[width=0.5\textwidth]{images/V=0_62_fitted_bpm_to_rf_deltas}
+		\includegraphics[width=0.5\textwidth]{images/V=0_81_fitted_bpm_to_rf_deltas}
+		\includegraphics[width=0.5\textwidth]{images/V=1_05_fitted_bpm_to_rf_deltas}
+		\includegraphics[width=0.5\textwidth]{images/V=1_33_fitted_bpm_to_rf_deltas}
+		\includegraphics[width=0.5\textwidth]{images/V=5_09_fitted_bpm_to_rf_deltas}
+		\includegraphics[width=0.5\textwidth]{images/V=7_18_fitted_bpm_to_rf_deltas}
 	\caption{BPM signal for RF voltages where the beam is not considered to be
            captured. The colours show AC signal voltage. $\delta t$ is the time
-           relative to the most recent RF peak. The points show the position of
-           the measured peaks in the beam current. The units for the abscissa
-           are $1e3 ns$.}
-	\label{fig:bm_signal_periodic_not_captured}
+           relative to the most recent RF peak. The signal is normalised to
+           lie within the range (0, 1) on each successive RF period.
+           The points show the position of the measured peaks in the beam 
+           current. Blue points were included in the RF phase analysis and black
+           points were excluded.}
+	\label{fig:bm_signal_periodic}
 \end{figure}
 
-\subsection{RF Phase of Captured Bunch}
+\subsection{Measured RF Phase of Captured Bunch}
 The phase of the measured peaks in the bunch monitor signal are used to 
-calculate the RF phase of the captured bunch. The bunch is considered to be
-captured when the  bunch peak falls  with in a window defined by 
-$1.5e5 < t [ns] < 4.0e5$ and $200 < \delta t [ns] < 500 $.
+calculate the RF phase of the captured bunch.
 
-The bunch phase is calculated using one of two algorithms.
-\begin{itemize}
-\item Sinusoidal fit: A sinusoidal fit, as shown in Fig. 
-\ref{fig:bm_signal_periodic_captured}, is made to the peaks of the captured
-bunch. The error is taken to be the error on the fit (\emph{wrong, should be
-based on chi2 I think.}).
-\item Mean fit: The average $\delta t$ of the captured bunch peaks  is 
-calculated. The error is taken to be RMS $\delta t$.
-\end{itemize}
-The phase is calculated from $\delta t$ by the relation
-\begin{equation}
-\phi = 2 \pi \delta t / \tau
-\end{equation}
-where $\tau$ is the RF period. The resultant relationship between bunch phase 
-and voltage is shown for the two different algorithms in 
+The bunch phase is calculated using the distance between the RF peak and the 
+bunch peak after the first 150 $\mu s$ of the cycle. Before 150 $\mu s$ there
+is significant filamentation as parts of the beam which are not captured are 
+lost, so this region is excluded from the analysis. 
+
+The projection of the turn-by-turn measured phase is used to estimate the actual
+synchronous phase of the RF. The peak in the measured beam phase is found and
+the error on this measurement is taken to be the full-width of the peak at half
+maximum.
+
+Where more than one peak is visible, if the alternate peaks have a 
+magnitude  more than half the size of the principle peak then the error on the 
+measurement is taken to be the distance between the upper bound on the upper 
+peak and the lower bound on the lower peak. This reflects uncertainty in the 
+actual synchronous phase when the bunch is oscillating, for example in the
+higher voltage cases.
+
+\subsection{Measured Voltage Threshold}
+The measured phase of the bunch for different RF voltages is shown in fig.
 \ref{fig:rf_phase_to_voltage}.
 
 In order to calculate a measured thickness of the foil, the RF phase is compared
@@ -277,47 +270,91 @@ to the peak voltage. When the beam is coasting, the energy returned to the beam
 should balance the energy lost on the foil. Hence
 
 \begin{equation}
+\label{eq:bm_signal_fit}
 V_0 = c\delta W \sin (\phi_s+d\phi).
 \end{equation}
 
 where $V_0$ is the peak voltage, $c$ is a calibration constant that scales the
-pickup voltage to the voltage experienced by a proton in the FFAG, $\delta W$ is
+pickup voltage to the voltage change that a proton in the FFAG undergoes on each
+tuen, $\delta W$ is
 the energy lost on the foil, $\phi_s$ is the reference phase and $d\phi$ is a 
 calibration constant representing azimuthal offset of the RF cavity and the 
 bunch monitor, cable lengths and any associated electronics signal delays.
 
-The calibration constant $c$ has value 1e3 (with what errors?)
+The calibration constant $c$ has been tuned to 1e3.
 
-The calculated fit parameters for the two cases are listed below.
-\begin{itemize}
-\item Sinusoidal fit: $dW = -1.2105 +/- 0.0021$ keV, $d\phi = 0.233 +/- 0.000955$ rad
-\item Mean fit: $dW =-0.85079 +/- 0.0017$ keV, $d\phi = 0.0752 +/- 0.000616$ rad
-\end{itemize}
+By inspection of Fig. \ref{fig:bm_signal_periodic}, the beam at 0.23 V is not 
+captured as there is no region where the beam has a constant phase before it is 
+lost. The beam at 0.66 V certainly is captured as there is a clear region where 
+the RF phase is constant.
+
+Based on this analysis, the voltage required to generate an RF bucket is 
+considered to be in the range 0.23 kV to 0.66 kV.
+
+It is possible to use the measured phase of the beam to better constrain the
+energy loss due to the foil. The phase of the beam relative to the RF can be
+calculated using the peaks shown in \ref{fig:bm_signal_periodic}.
+
+The quality of fit, when synchronous phase is included, is shown in Fig.
+\ref{fig:rf_phase_to_voltage}. Minuit was used to fit equation
+\ref{eq:bm_signal_fit}, minimising $\sum \chi^2$. Several fitting attempts were
+made, in each case constraining the fitting routine to find a voltage below some 
+minimum value, and including only data with voltages above this minimum value.
+
+The results of the fit and the $\sum \chi^2$ are shown in in Table 
+\ref{tab:fitted_rf_voltage_and_phase}. Based on this analysis, the phase of the
+bunch is not consistent with the model for voltages below 0.52 V. The minimum RF
+voltage required to bunch the beam is measured to be at least 0.41 kV.
+
+We also note from Table \ref{tab:fitted_rf_voltage_and_phase} that the fitted
+energy loss is greater than the measured energy returned to the bunch for the
+0.52289 V setting.
+
+\begin{table}
+\begin{center}
+\begin{tabular}[\linewidth]{l|cc|cc|c}
+Lowest voltage & Fitted & Fitted & Degrees & $\sum \chi^2$ & Probability \\
+setting [kV] & energy loss [keV] & phase [rad] & of freedom &  &  \\
+0.16004 & 0.12316 & -4.08641 & 20.0 & 406.1685 & 0.0 \\
+0.22874 & 0.22462 & -3.96561 & 19.0 & 192.54915 & 0.0 \\
+0.30771 & 0.29869 & -3.82594 & 18.0 & 114.25484 & 0.0 \\
+0.40573 & 0.40542 & -3.62116 & 17.0 & 51.86977 & 0.0 \\
+0.52289 & 0.53894 & -3.43218 & 16.0 & 36.29481 & 0.0 \\
+0.66366 & 0.51166 & -3.44335 & 15.0 & 22.21081 & 0.1 \\
+0.8353 & 0.64442 & -3.25901 & 14.0 & 8.94221 & 0.83 \\
+1.02319 & 0.93069 & -3.0 & 13.0 & 3.01842 & 1.0 \\
+1.24096 & 0.7548 & -3.11346 & 12.0 & 3.27581 & 0.99 \\
+1.50383 & 0.89299 & -3.04173 & 11.0 & 2.89378 & 0.99 \\
+\end{tabular}
+\caption{Fitted RF voltage and phase for different sets of minimum allowed voltage.}
+\label{tab:fitted_rf_voltage_and_phase}
+\end{center}
+\end{table}
 
 \begin{figure}
 		\includegraphics[width=1.0\textwidth]{images/synchronous_phase_vs_voltage}
-	\caption{Measured synchronous phase relative compared to RF peak voltage for
-   (red) mean fit method (blue) sinusoidal fit method. See text for details on
-   the different methods and corresponding fit parameters.}
+	\caption{Measured synchronous phase relative compared to RF peak voltage. Fit
+           curves are shown including various threshold voltages.}
 	\label{fig:rf_phase_to_voltage}
 \end{figure}
 
 \subsection{Measured Thickness}
-We compare the measured energy lost in the foil with the Bethe-Bloch model 
+The measured energy lost in the foil is compared with the Bethe-Bloch model 
 \cite{PDG} and the GEANT4 QGSP energy loss model \cite{GEANT4} to deduce a 
-measured foil thickness. The design thickness is 20 [$\mu g/cm^2$].
+measured foil thickness. The design thickness is 20 [$\mu$ g/cm$^2$] \emph{was it 10 or 20?}.
 
 \begin{table}
 \begin{center}
 \begin{tabular}[\linewidth]{l|cc}
-               & Bethe Bloch       & Geant4 QGSP \\
+               & Bethe Bloch   & Geant4.9.6p02 QGSP model \\
 \hline
-Mean energy loss &                 &
+Mean stopping power & 37.6 MeV cm$^2$ g          & 34.0 MeV cm$^2$ g   \\
 \hline
-Sinusoidal fit & 35.6 $\mu g/cm^2$ & 38.4 $\mu g/cm^2$ \\
-Mean fit       & 27.0 $\mu g/cm^2$ & 25.0 $\mu g/cm^2$ \\
+By inspection       & 6.11 - 17.6 $\mu$ g/cm$^2$ & 6.76 - 19.4 $\mu$ g/cm$^2$ \\
+Fit                 & $>$ 10.9 $\mu$ g/cm$^2$    &  $>$ 12.1 $\mu$ g/cm$^2$ \\
+Combined            & 10.9 - 17.6 $\mu$ g/cm$^2$ &  12.1 - 19.4 $\mu$ g/cm$^2$ \\
 \end{tabular}
-\caption{Measured thickness of the foil.}
+\caption{Model stopping power and corresponding foil thicknesses.}
 \end{center}
 \end{table}
 
